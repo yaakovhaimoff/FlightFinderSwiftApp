@@ -16,26 +16,23 @@ struct LoginForm: View {
     @FocusState private var passwordFieldIsFocused: Bool
     
     var body: some View {
-        VStack {
-            GroupBox {
-                VStack(spacing: 10) {
-                    LoginFields(
-                        email: $email,
-                        password: $password,
-                        showPassword: $showPassword,
-                        emailFieldIsFocused: $emailFieldIsFocused,
-                        passwordFieldIsFocused: $passwordFieldIsFocused
-                    )
-                    
-                    StatusContent(vm: vm, email: $email, password: $password)
-                    
-                    AuthDivider(vm: vm)
-                }
-            } label: {
-                Image(.logo)
-                    .resizable()
-                    .scaledToFit()
-            }
+        VStack(spacing: 10) {
+            Image(.logoPhotoroom)
+                .resizable()
+                .scaledToFit()
+                .padding(.bottom,  50)
+            
+            LoginFields(
+                email: $email,
+                password: $password,
+                showPassword: $showPassword,
+                emailFieldIsFocused: $emailFieldIsFocused,
+                passwordFieldIsFocused: $passwordFieldIsFocused
+            )
+            
+            StatusContent(vm: vm, email: $email, password: $password)
+            
+            AuthDivider(vm: vm)
         }
         .padding()
         .frame(width: 350)
