@@ -26,39 +26,52 @@ struct SearchField: View {
     }
     
     var body: some View {
-        TextField(searchFieldName, text: $searchField)
-            .focused(searchFieldIsFocused)
-            .textFieldStyle(.roundedBorder)
-            .textInputAutocapitalization(.never)
-            .disableAutocorrection(true)
-            .frame(width: 150)
-            .clipShape(.rect(cornerRadius: 10))
-            .shadow(radius: 5)
-            .onChange(of: searchField) { updateSuggestions() }
-            .onChange(of: searchFieldIsFocused.wrappedValue) { updateSuggestions() }
-            .overlay(alignment: alignRight ? .topTrailing : .topLeading) {
-                if showSuggestions {
-                    List(searchFieldSuggestions, id: \.self) { airport in
-                        Text(airport)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                showSuggestions = false
-                                searchField = airport
-                                selectedCode = airport.airportCodeInParens ?? ""
-                                searchFieldIsFocused.wrappedValue = false
-                            }
-                    }
-                    .listStyle(.plain)
-                    .frame(width: 320, height: 250)
-                    .clipShape(.rect(cornerRadius: 10))
-                    .shadow(radius: 5)
-                    .offset(y: 50)
+        HStack {
+            TextField(searchFieldName, text: $searchField)
+                .focused(searchFieldIsFocused)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .onChange(of: searchField) { updateSuggestions() }
+                .onChange(of: searchFieldIsFocused.wrappedValue) { updateSuggestions() }
+                .onAppear {
+                    searchFieldIsFocused.wrappedValue = false
                 }
+            
+            Button {
+                searchField = ""
+            } label: {
+                Image(systemName: "xmark")
+                    .scaledToFit()
             }
-            .onAppear {
-                searchFieldIsFocused.wrappedValue = false
+            .foregroundStyle(.secondary)
+        }
+        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.white)
+        )
+        .shadow(radius: 5)
+        .frame(width: 137)
+        .overlay(alignment: alignRight ? .topTrailing : .topLeading) {
+            if showSuggestions {
+                List(searchFieldSuggestions, id: \.self) { airport in
+                    Text(airport)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            showSuggestions = false
+                            searchField = airport
+                            selectedCode = airport.airportCodeInParens ?? ""
+                            searchFieldIsFocused.wrappedValue = false
+                        }
+                }
+                .listStyle(.plain)
+                .glassEffect(in: .rect(cornerRadius: 10))
+                .frame(width: 320, height: 250)
+                .shadow(radius: 5)
+                .offset(x: alignRight ?  3: -3, y: 43)
             }
+        }
     }
 }
 

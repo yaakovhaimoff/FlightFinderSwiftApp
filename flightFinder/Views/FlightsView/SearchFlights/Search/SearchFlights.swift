@@ -28,13 +28,25 @@ struct SearchFlights: View {
             VStack(alignment: .trailing) {
                 GroupBox {
                     VStack {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 10) {
                             SearchField(
                                 searchFieldName: originName,
                                 searchField: $origin,
                                 selectedCode: $originCode,
                                 searchFieldIsFocused: $originIsFocused
                             )
+                            
+                            Button {
+                                let temp = origin
+                                origin = destination
+                                destination = temp
+                                
+                            } label: {
+                                Image(systemName: "arrow.left.arrow.right")
+                                    .foregroundStyle(.app)
+                            }
+                            .clipShape(.rect(cornerRadius: 10))
+                            .shadow(radius: 5)
                             
                             SearchField(
                                 searchFieldName: destinationName,
@@ -57,7 +69,7 @@ struct SearchFlights: View {
                         )
                     }
                 } label: {
-                    Text("Look for your next adventure")
+                    Text("Look for your next flights")
                         .font(.title3.bold())
                         .padding(.leading, 15)
                 }
@@ -97,3 +109,4 @@ struct SearchFlights: View {
         SearchFlights(vm: ViewModel())
     }
 }
+

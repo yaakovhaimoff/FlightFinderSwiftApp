@@ -7,12 +7,25 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		75C145E22F0735C60069DCF5 /* flightFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flightFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		75C145E22F0735C60069DCF5 /* AYCF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AYCF.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7577DC782F1A143000CF8CB4 /* Exceptions for "flightFinder" folder in "AYCF" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 75C145E12F0735C60069DCF5 /* AYCF */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		75C145E42F0735C60069DCF5 /* flightFinder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7577DC782F1A143000CF8CB4 /* Exceptions for "flightFinder" folder in "AYCF" target */,
+			);
 			path = flightFinder;
 			sourceTree = "<group>";
 		};
@@ -40,7 +53,7 @@
 		75C145E32F0735C60069DCF5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75C145E22F0735C60069DCF5 /* flightFinder.app */,
+				75C145E22F0735C60069DCF5 /* AYCF.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +61,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		75C145E12F0735C60069DCF5 /* flightFinder */ = {
+		75C145E12F0735C60069DCF5 /* AYCF */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75C145EF2F0735C70069DCF5 /* Build configuration list for PBXNativeTarget "flightFinder" */;
+			buildConfigurationList = 75C145EF2F0735C70069DCF5 /* Build configuration list for PBXNativeTarget "AYCF" */;
 			buildPhases = (
 				75C145DE2F0735C60069DCF5 /* Sources */,
 				75C145DF2F0735C60069DCF5 /* Frameworks */,
@@ -63,11 +76,11 @@
 			fileSystemSynchronizedGroups = (
 				75C145E42F0735C60069DCF5 /* flightFinder */,
 			);
-			name = flightFinder;
+			name = AYCF;
 			packageProductDependencies = (
 			);
 			productName = flightFinder;
-			productReference = 75C145E22F0735C60069DCF5 /* flightFinder.app */;
+			productReference = 75C145E22F0735C60069DCF5 /* AYCF.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -99,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				75C145E12F0735C60069DCF5 /* flightFinder */,
+				75C145E12F0735C60069DCF5 /* AYCF */,
 			);
 		};
 /* End PBXProject section */
@@ -256,6 +269,7 @@
 				DEVELOPMENT_TEAM = 28WRC8TT3V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = flightFinder/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -287,6 +301,7 @@
 				DEVELOPMENT_TEAM = 28WRC8TT3V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = flightFinder/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -320,7 +335,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75C145EF2F0735C70069DCF5 /* Build configuration list for PBXNativeTarget "flightFinder" */ = {
+		75C145EF2F0735C70069DCF5 /* Build configuration list for PBXNativeTarget "AYCF" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75C145F02F0735C70069DCF5 /* Debug */,

@@ -14,8 +14,8 @@ struct FetchService {
         case decodingError
     }
 
-//    let baseURL: URL = URL(string: "https://unimprovised-brycen-steamily.ngrok-free.dev/api")!
-    let baseURL: URL = URL(string: "http://localhost:8080/api")!
+    let baseURL: URL = URL(string: "https://unimprovised-brycen-steamily.ngrok-free.dev/api")!
+//    let baseURL: URL = URL(string: "http://localhost:8080/api")!
 
     func login(for user: User) async throws -> AuthResponse {
         try await authenticate(user: user, endpoint: "login")

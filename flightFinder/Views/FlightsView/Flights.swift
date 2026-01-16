@@ -14,24 +14,26 @@ struct Flights: View {
         TabView {
             Tab("Search Flights", systemImage: "airplane") {
                 NavigationStack {
-                    SearchFlights(vm: vm)
-                        .padding(.top)
-                        .navigationTitle("Search")
-                        .ignoresSafeArea(.keyboard, edges: .bottom)
-                    Spacer()
+                    VStack {
+                        SearchFlights(vm: vm)
+                            .padding(.top)
+                            .ignoresSafeArea(.keyboard, edges: .bottom)
+                        Spacer()
+                    }
+                    .navigationTitle("Search")
                 }
             }
             Tab("Profile", systemImage: "person.fill") {
                 NavigationStack {
-                    Profile()
+                    Profile(vm: vm)
                         .navigationTitle("Profile")
                         .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
             }
         }
-        ignoresSafeArea()
         .tabViewStyle(.sidebarAdaptable)
-        .clipShape(.rect(cornerRadius: 12))
+        .clipShape(.rect(cornerRadius: 10))
+        .ignoresSafeArea()
     }
 }
 
