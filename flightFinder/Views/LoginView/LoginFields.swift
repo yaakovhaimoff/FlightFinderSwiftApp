@@ -69,6 +69,10 @@ struct LoginFields: View {
             .shadow(radius: 5)
             .frame(width: 250)
         }
+        .onAppear {
+            emailFieldIsFocused.wrappedValue = false
+            passwordFieldIsFocused.wrappedValue = false
+        }
     }
 }
 

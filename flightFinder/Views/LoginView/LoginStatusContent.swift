@@ -13,7 +13,7 @@ struct StatusContent: View {
     @Binding var password: String
 
     var body: some View {
-        switch vm.status {
+        switch vm.loginStatus {
         case .notStarted:
             AuthButton(vm: vm, email: $email, password: $password)
         case .fetching:

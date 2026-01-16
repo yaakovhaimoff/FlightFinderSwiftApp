@@ -9,15 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-    
+    @State private var vm = ViewModel()
     var body: some View {
-        HomeView()
+        VStack {
+            LoginForm(vm: vm)
+        }
+        .fullScreenCover(isPresented: $vm.isAuthenticated) {
+            Flights(vm: vm)
+        }
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: [RecentSearch.self], inMemory: true)
 }

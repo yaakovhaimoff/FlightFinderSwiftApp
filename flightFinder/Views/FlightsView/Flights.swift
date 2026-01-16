@@ -1,5 +1,5 @@
 //
-//  Search.swift
+//  Flights.swift
 //  flightFinder
 //
 //  Created by Yaakov Haimoff on 2.01.2026.
@@ -8,47 +8,33 @@
 import SwiftUI
 
 struct Flights: View {
-    var onLogout: (() -> Void)?
+    var vm: ViewModel
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                HStack {
-                    Image(.logoPhotoroom)
-                        .resizable()
-                        .scaledToFit()
-
+        TabView {
+            Tab("Search Flights", systemImage: "airplane") {
+                NavigationStack {
+                    SearchFlights(vm: vm)
+                        .padding(.top)
+                        .navigationTitle("Search")
+                        .ignoresSafeArea(.keyboard, edges: .bottom)
                     Spacer()
-
-                    if let onLogout = onLogout {
-                        Button {
-                            onLogout()
-                        } label: {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .font(.title2)
-                                .foregroundColor(.app)
-                        }
-                        .padding(.trailing)
-                    }
                 }
-
-                TabView {
-                    Tab("Search For Flights", systemImage: "airplane") {
-                        SearchFlights()
-                        Spacer()
-                    }
-                    Tab("Favorites", systemImage: "star.fill") {
-                        FavoriteFlights()
-                    }
+            }
+            Tab("Profile", systemImage: "person.fill") {
+                NavigationStack {
+                    Profile()
+                        .navigationTitle("Profile")
+                        .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
-                .tabViewStyle(.sidebarAdaptable)
-                .clipShape(.rect(cornerRadius: 12))
-                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
+        ignoresSafeArea()
+        .tabViewStyle(.sidebarAdaptable)
+        .clipShape(.rect(cornerRadius: 12))
     }
 }
 
 #Preview {
-    Flights()
+    Flights(vm: ViewModel())
 }

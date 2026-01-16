@@ -25,13 +25,18 @@ class ViewModel {
 
     var user: User?
     var authMode: AuthMode = .login
-    private(set) var status: FetchStatus = .notStarted
+    private(set) var loginStatus: FetchStatus = .notStarted
     public var isAuthenticated = false
     var currentEmail: String?
 
     public var showAlert = false
     var alertTitle = ""
     var alertMessage = ""
+
+    // MARK: - Search State
+    var flights: [Flight] = []
+    private(set) var searchStatus: FetchStatus = .notStarted
+    var currentSearchRequest: SearchRequest?
 
     private let fetchService = FetchService()
 
@@ -47,7 +52,7 @@ class ViewModel {
            !token.isEmpty {
             currentEmail = email
             isAuthenticated = true
-            status = .success
+            loginStatus = .success
         }
     }
 
@@ -56,7 +61,7 @@ class ViewModel {
     func login(for email: String, with password: String) async {
         guard validateInput(email: email, password: password) else { return }
 
-        status = .fetching
+        loginStatus = .fetching
         do {
             let user = User(email: email, password: password)
             let authResponse = try await fetchService.login(for: user)
@@ -64,14 +69,14 @@ class ViewModel {
         } catch let error as FetchService.FetchError {
             handleAuthError(error, isLogin: true)
         } catch {
-            status = .failure(message: "An unexpected error occurred.")
+            loginStatus = .failure(message: "An unexpected error occurred.")
         }
     }
 
     func register(for email: String, with password: String) async {
         guard validateInput(email: email, password: password) else { return }
 
-        status = .fetching
+        loginStatus = .fetching
         do {
             let user = User(email: email, password: password)
             let authResponse = try await fetchService.register(for: user)
@@ -79,7 +84,7 @@ class ViewModel {
         } catch let error as FetchService.FetchError {
             handleAuthError(error, isLogin: false)
         } catch {
-            status = .failure(message: "An unexpected error occurred.")
+            loginStatus = .failure(message: "An unexpected error occurred.")
         }
     }
 
@@ -87,7 +92,7 @@ class ViewModel {
         KeychainService.deleteAll()
         isAuthenticated = false
         currentEmail = nil
-        status = .notStarted
+        loginStatus = .notStarted
         user = nil
         authMode = .login
     }
@@ -96,7 +101,71 @@ class ViewModel {
 
     func toggleAuthMode() {
         authMode = (authMode == .login) ? .register : .login
-        status = .notStarted
+        loginStatus = .notStarted
+    }
+
+    // MARK: - Flight Search
+
+    func searchNextDays(originCode: String, originFull: String, destCode: String, destFull: String) async {
+        let request = SearchRequest(
+            originQuery: originCode,
+            originFull: originFull,
+            destQuery: destCode,
+            destFull: destFull,
+            date: nil
+        )
+        currentSearchRequest = request
+        searchStatus = .fetching
+        flights = []
+
+        do {
+            let response = try await fetchService.searchNextDays(request: request)
+            flights = response.flights
+            searchStatus = .success
+        } catch let error as FetchService.FetchError {
+            handleSearchError(error)
+        } catch {
+            searchStatus = .failure(message: "An unexpected error occurred.")
+        }
+    }
+
+    func searchConnections(forDate date: String) async {
+        guard var request = currentSearchRequest else { return }
+        request = SearchRequest(
+            originQuery: request.originQuery,
+            originFull: request.originFull,
+            destQuery: request.destQuery,
+            destFull: request.destFull,
+            date: date
+        )
+        searchStatus = .fetching
+
+        do {
+            let response = try await fetchService.searchConnections(request: request)
+            flights = response.flights
+            searchStatus = .success
+        } catch let error as FetchService.FetchError {
+            handleSearchError(error)
+        } catch {
+            searchStatus = .failure(message: "An unexpected error occurred.")
+        }
+    }
+
+    func resetSearchStatus() {
+        searchStatus = .notStarted
+    }
+
+    private func handleSearchError(_ error: FetchService.FetchError) {
+        let message: String
+        switch error {
+        case .badResponse(let statusCode):
+            message = "Server error (\(statusCode))"
+        case .networkError:
+            message = "Network error. Please check your connection."
+        case .decodingError:
+            message = "Invalid response from server."
+        }
+        searchStatus = .failure(message: message)
     }
 
     // MARK: - Private Helpers
@@ -120,7 +189,7 @@ class ViewModel {
         try KeychainService.saveEmail(authResponse.email)
         currentEmail = authResponse.email
         isAuthenticated = true
-        status = .success
+        loginStatus = .success
     }
 
     private func handleAuthError(_ error: FetchService.FetchError, isLogin: Bool) {
@@ -137,7 +206,7 @@ class ViewModel {
         case .decodingError:
             message = "Invalid response from server."
         }
-        status = .failure(message: message)
+        loginStatus = .failure(message: message)
     }
 
     private func showAlertWith(title: String, message: String) {
